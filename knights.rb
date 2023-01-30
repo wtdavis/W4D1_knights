@@ -1,5 +1,5 @@
 #W4D1 knights travails olga and will
-require "00_tree_node.rb"
+require_relative "00_tree_node.rb"
 class KnightPathFinder
 
     def initialize(pos)
@@ -13,7 +13,7 @@ class KnightPathFinder
         i, j = pos
         all_possible_index_change = [[-2,1], [-2,-1], [-1,2], [-1,-2], [1,2], [1,-2], [2,1],[2,-1]]
         all_possible_index_change.each do |change|
-            valid_arr << [i+change[0], j+change[1]] if (i+change[0] >= 0 && j+change[1] >=0)
+            valid_arr << [i+change[0], j+change[1]] if (i+change[0] >= 0 && j+change[1] >=0 && i+change[0] <=7 && j+change[1] <=7 )
         end
         valid_arr.delete(pos)
         return valid_arr
@@ -25,8 +25,27 @@ class KnightPathFinder
         remaining_pos
     end
 
-    # def build_move_tree
+    def build_move_tree
+        pos_tree = [@root_node]
+        
+        until pos_tree.empty?
+            newmoves = new_move_positions(pos_tree[0].value)
+            newmoves.each do |pos|
+                node = PolyTreeNode.new(pos)
+                node.parent=(pos_tree[0])
+                pos_tree << node
+            end
+        end
+    end
+
+    
+    
+
 
 
 
 end
+
+kpf = KnightPathFinder.new([0,0])
+p kpf
+p kpf.build_move_tree
